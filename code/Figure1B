@@ -4,6 +4,10 @@
 #
 # ##############################################################################
 
+# Packages
+if (!require("ggplot2")) install.packages("ggplot2")
+
+
 #  variance explained by study and disease
 ## import data
 df.plot.study <- read.table("./data/Figure1b.txt")
