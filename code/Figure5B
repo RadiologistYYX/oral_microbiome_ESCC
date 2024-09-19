@@ -1,6 +1,6 @@
 # ##############################################################################
 #
-##  Figure 1D venn plot
+##  Figure 5B bar plot
 #
 # ##############################################################################
 
@@ -10,7 +10,7 @@ if (!require("ggplot2")) install.packages("ggplot2")
 
 
 ## import data
-markers <- read.table('./figure5b.txt',sep ="\t)
+markers <- read.table('./data/figure5b.txt',sep ="\t)
 markers_plot <- data.frame(family = markers$Family, genus = markers$Genera, species = markers$Species ,fold_change = markers$logfc)
 markers_plot$genus <- factor(markers_plot$genus)
 markers_plot$family <- factor(markers_plot$family)
