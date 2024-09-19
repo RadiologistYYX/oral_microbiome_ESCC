@@ -10,7 +10,7 @@ if (!require("pheatmap")) install.packages("pheatmap")
 
 #  variance explained by study and disease
 ## import data
-plot_df <- read.table("./Figure8.txt",sep = "\t)
+plot_df <- read.table("./data/Figure8.txt",sep = "\t)
 
 annotation_r <- data.frame(plot_df[,1])
 row.names(annotation_r) <- row.names(plot_df)
