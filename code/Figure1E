@@ -1,6 +1,6 @@
 # ##############################################################################
 #
-##  Figure 1B variance
+##  Figure 1E Genus bar
 #
 # ##############################################################################
 
@@ -32,7 +32,7 @@ ggplot(plot_bar_df, aes(x=Var1, y=value, fill=Var2)) +
         axis.ticks.y = element_blank(),
         axis.text.x  = element_text(hjust=1, angle=90),
         panel.background = element_rect(fill=NULL, colour = 'white')) +
-  guides(fill=guide_legend(title="Family"))+facet_wrap(.~group_info,scales = "free_x")
+  guides(fill=guide_legend(title="Phylum"))+facet_wrap(.~group_info,scales = "free_x")
 
 
 # ##############################################################################
