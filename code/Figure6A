@@ -1,0 +1,9 @@
+
+
+
+
+p6a <- pheatmap(a,display_numbers = TRUE,cluster_rows = FALSE,cluster_cols = FALSE,color = colorRampPalette(c("#e6eef1", "#edc4be"))(100),
+         fontsize = 14, number_color = "black", cellwidth=50, cellheight = 50, border_color = NA,gaps_row = 4,
+         main = "The AUC using all ASV features")
+
+p6a
