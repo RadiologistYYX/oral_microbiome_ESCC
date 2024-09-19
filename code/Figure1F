@@ -16,7 +16,7 @@ plot_df <- read.table('Figure1f.txt')
 plot_df <- t(plot_df)
 plot_bar_df <- plot_df/apply(plot_df, 1, sum)
 
-
+col.hm <- pal_npg("nrc")(11)
 
 ## plot
 ggplot(plot_bar_df, aes(x=Var1, y=value, fill=Var2)) +
