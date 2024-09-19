@@ -5,16 +5,18 @@
 # ##############################################################################
 
 # Packages
-library("labdsv")
-library("coin")
-library("vegan")
-library("yaml")
-library("ggpubr")
-library("cowplot")
-library("tidyverse")
+if (!require("labdsv")) install.packages("labdsv")
+if (!require("coin")) install.packages("coin")
+if (!require("vegan")) install.packages("vegan")
+if (!require("yaml")) install.packages("yaml")
+if (!require("ggpubr")) install.packages("ggpubr")
+if (!require("cowplot")) install.packages("cowplot")
+if (!require("tidyverse")) install.packages("tidyverse")
+
+
 #import data
-df.plot <- read.csv(file = 'data/Figure1b.csv',stringsAsFactors = FALSE, header = TRUE, row.names = 1,
-                                check.name = FALSE)
+df.plot <- read.table('./data/Figure1c_asv_abundance.txt',sep="\t")
+group <- read.table('./data/Figure1c_group_info.txt',sep="\t",row.names = 1,header=1,check.names=FALSE)
 #main plot
 g.main <- df.plot %>% 
   ggplot(aes(x=Axis1, y=Axis2, shape= Group ,col= Study)) +
