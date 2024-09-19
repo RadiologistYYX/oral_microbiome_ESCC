@@ -5,6 +5,7 @@
 # ##############################################################################
 
 #  variance explained by study and disease
+## import data
 df.plot.study <- read.table("./data/Figure1b.txt")
 
 g1b <- df.plot.study %>%
