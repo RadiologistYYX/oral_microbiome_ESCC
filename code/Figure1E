@@ -4,21 +4,22 @@
 #
 # ##############################################################################
 
-# Packages
+## Packages
 if (!require("ggplot2")) install.packages("ggplot2")
 if (!require("plyr")) install.packages("plyr")
 if (!require("reshape2")) install.packages("reshape2")
 if (!require("ggsci")) install.packages("ggsci")
 
 
-# input
+## import data
 plot_df <- read.table('Figure1e.txt')
 plot_df <- t(plot_df)
+plot_bar_df <- plot_df/apply(plot_df, 1, sum)
 
 
 
-
-ggplot(L2_bar3, aes(x=Var1, y=value, fill=Var2)) +
+## plot
+ggplot(plot_bar_df, aes(x=Var1, y=value, fill=Var2)) +
   geom_bar(stat="identity",position="fill", width=0.8, col='black')+
   # ggtitle("The Financial Performance of Five Giant")+
   theme_pander()+
@@ -32,3 +33,6 @@ ggplot(L2_bar3, aes(x=Var1, y=value, fill=Var2)) +
         axis.text.x  = element_text(hjust=1, angle=90),
         panel.background = element_rect(fill=NULL, colour = 'white')) +
   guides(fill=guide_legend(title="Family"))+facet_wrap(.~group_info,scales = "free_x")
+
+
+# ##############################################################################
