@@ -1,0 +1,21 @@
+
+
+
+
+
+
+
+ggplot(L2_bar3, aes(x=Var1, y=value, fill=Var2)) +
+  geom_bar(stat="identity",position="fill", width=0.8, col='black')+
+  # ggtitle("The Financial Performance of Five Giant")+
+  theme_pander()+
+  scale_fill_manual(values = col.hm) +
+  xlab("Group")+ylab("Relative Abundance")+
+  # scale_fill_wsj("rgby", "")+
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.ticks.x = element_blank(),
+        axis.ticks.y = element_blank(),
+        axis.text.x  = element_text(hjust=1, angle=90),
+        panel.background = element_rect(fill=NULL, colour = 'white')) +
+  guides(fill=guide_legend(title="Family"))+facet_wrap(.~group_info,scales = "free_x")
