@@ -1,0 +1,8 @@
+
+
+
+plot_df <- read.table("./Figure8.txt",sep = "\t)
+g <- pheatmap(function_combion_df_5[,c(2,3)],color = colorRampPalette(c("#5A4C88", "white", "#CB422F"))(50), 
+              cluster_cols = FALSE, border_color = NA,
+              cluster_rows = TRUE, clustering_method = "complete", scale = 'none',
+              annotation_row  = annotation_r_5,   treeheight_row = 120,annotation_colors = ann_colors_5)
