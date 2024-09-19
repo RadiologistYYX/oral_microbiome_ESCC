@@ -9,9 +9,10 @@ if (!require("VennDiagram")) install.packages("VennDiagram")
 
 
 ## import data
-asv_list1 <- read.table("~/batch3_pipline/figure_data/figure1d_diff_asv_PRJNA660092.txt",sep="\t")
-asv_list2 <- read.table("~/batch3_pipline/figure_data/figure1d_diff_asv_PRJNA853196.txt",sep="\t")
-asv_list3 <- read.table("~/batch3_pipline/figure_data/figure1d_diff_asv_Chongqing_Cohort.txt",sep="\t")
+diff_asv <- read.table("~/batch3_pipline/data/figure1d_diff_asv_PRJNA660092.txt",sep="\t")
+asv_list1 <- diff_asv[,diff_asv[,"batch"=="PRJNA660092"]]
+asv_list2 <- diff_asv[,diff_asv[,"batch"=="PRJNA853196"]]
+asv_list3 <- diff_asv[,diff_asv[,"batch"=="CQ50"]]
 
 venn.plot <- venn.diagram(
   x = list(
