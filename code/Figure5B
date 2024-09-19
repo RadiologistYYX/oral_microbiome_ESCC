@@ -24,7 +24,7 @@ markers_plot <- markers_plot %>%
   arrange(desc(fold_change))
 
 markers_plot$ASV1 <- paste0(markers_plot$family," ",markers_plot$genus," ",markers_plot$species)
-plot_3b <- ggplot(markers_plot,aes(reorder(ASV1,fold_change), fold_change))+
+plot_5b <- ggplot(markers_plot,aes(reorder(ASV1,fold_change), fold_change))+
   geom_bar(aes(fill=factor((fold_change>0)+1)),stat="identity", width=0.7, position=position_dodge(0.7)) +
   coord_flip() +
   scale_fill_manual(values=c("#0072B2", "#D55E00"), guide=FALSE) +
@@ -39,7 +39,7 @@ plot_3b <- ggplot(markers_plot,aes(reorder(ASV1,fold_change), fold_change))+
   )
 
 
-plot_3b
+plot_5b
 
 
 # ##############################################################################
