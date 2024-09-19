@@ -1,0 +1,11 @@
+Family	Genera	Species	logfc	ASV	Rank
+Neisseriaceae	Neisseria	perflava	0.8936881	2f9a29afd5f53b724705e735df227a08	1
+Pasteurellaceae	Haemophilus	parainfluenzae	0.2985969	148fef114366d9a78eff952e01a3fa11	2
+Atopobiaceae	Lancefieldella	parvula	-1.031698	65622d3a4215f36a7cb97eba8090e665	3
+Neisseriaceae	Neisseria	flavescens	0.8281878	547e4fa04a12742ca73f70c77ae28880	4
+Lachnospiraceae	Johnsonella	uncultured	-1.302968	d20e1b6f944dfcd9632d25b0b37ed2f5	5
+Clostridia_UCG-014	Clostridia_UCG-014	uncultured	-0.4454417	485938ab12c13cf79413ea07b3a3e0b6	6
+Veillonellaceae	Dialister	invisus	-1.249184	ec3a160bb031370ade65cbcd2fece9d2	7
+Lachnospiraceae	Lacrimispora	sphenoides	-0.5056853	921bcbfdc3d57eec3a0a10a86ac0c0e5	8
+Prevotellaceae	Segatella	salivae	-0.7089782	a0f5c9742e0d22e89d31e934125edf65	9
+Tannerellaceae	Tannerella	serpentiformis	-0.581874	fdf02436e1e0b76dd0eb4c27939bca8f	10
