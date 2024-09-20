@@ -1,0 +1,9 @@
+
+
+
+pheatmap(heatmap_df[c(4,5),],cluster_rows = F,cluster_cols = F,
+         border_color = NA,color = colorRampPalette(colors = c("#0A7373","#B7BF99"))(50),
+         scale = "none",cellwidth=8,cellheight =10,show_rownames = F,
+         annotation_col= annotate_p,annotation_colors = ann_colors,
+         annotation_row = annotate_group,annotation_names_row = F,annotation_names_col = F,
+         legend = F)
