@@ -1,0 +1,6 @@
+
+
+
+p22  <- pheatmap(heat_df2,cluster_rows = FALSE,cluster_cols = FALSE,show_rownames = FALSE,
+                 color = colorRampPalette(colors = c("grey95","black"))(2),scale = 'none',annotation_row = ann_row,
+                 legend = FALSE,cutree_cols =3,annotation_col = ann_col,annotation_colors = ann_colors)
