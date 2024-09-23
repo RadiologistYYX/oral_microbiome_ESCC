@@ -4,9 +4,11 @@
 #
 # ##############################################################################
 
+# Packages
+if (!require("sf")) install.packages("sf")
+if (!require("cowplot")) install.packages("cowplot")
 
-library(sf) 
-library(cowplot)
+
 China <- sf::st_read("./data/figure1a_map.json")
 Chinacount = China
 Chinacount[Chinacount$name=="河南省","number"]=90
