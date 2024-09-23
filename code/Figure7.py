@@ -15,7 +15,7 @@ import cloudpickle as pickle
 
 CEA_df = pd.read_csv("Figure7_CEA.csv")
 CEA_df = pd.read_csv("Figure7_CEA.csv")
-### Due to the data being derived from Chinese serum samples, it is subject to relevant legal and regulatory requirements. If you need access to this data, please contact the corresponding author to obtain limited access to this information.
+### Due to relevant legal and regulatory requirements. If you need access to this data, please contact the corresponding author to obtain access to this information.
 
 CEA_df["label"][CEA_df["label"]=="Control"]=0
 CEA_df["label"][CEA_df["label"]=="ESCC"]=1
