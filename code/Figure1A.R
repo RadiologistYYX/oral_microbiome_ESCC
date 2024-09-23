@@ -1,13 +1,13 @@
-
-
-
-
-
+# ##############################################################################
 #
-setwd("~/batch3_pipline/figure_data/")
+##  Figure 1A collection map
+#
+# ##############################################################################
+
+
 library(sf) 
 library(cowplot)
-China <- sf::st_read("./figure1a_map.json")
+China <- sf::st_read("./data/figure1a_map.json")
 Chinacount = China
 Chinacount[Chinacount$name=="河南省","number"]=90
 Chinacount[Chinacount$name=="江苏省","number"]=109
@@ -49,3 +49,6 @@ ggdraw() +
   draw_plot(ChinaMap) +
   draw_plot(SouthChinaSea, x = 0.88, y = 0.00, width = 0.1, height = 0.3)
 dev.off()
+
+
+# ##############################################################################
