@@ -1,0 +1,28 @@
+# correlation calculate
+```{bash}
+fastspar --otu_table 104diff_asv_table_batch3.tsv_rename  --correlation ./batch3_104asv/median_correlation_batch3.tsv --covariance ./batch3_104asv/median_covariance_batch3.tsv
+fastspar --otu_table /home/fish/nova/Rawdata/batch_3/r_analysis_data_batch3/figure_cytoscape_diff_26genus_table_p<0.05.tsv  --correlation ./batch3/median_correlation_diff_26genus_batch3.tsv --covariance ./batch3/median_correlation_diff_26genus_batch3.tsv
+
+```
+## 50 iterations
+```{bash}
+fastspar --iterations 50 --otu_table 74diff_asv_table_batch3_1.txt --correlation ./batch3_74asv/median_correlation_diff_74asv_batch3.tsv --covariance ./batch3_74asv/median_covariance_diff_74asv_batch3.tsv
+```
+
+
+# 1000 bootstraps
+```{bash}
+mkdir ./batch3_74asv/bootstrap_counts
+fastspar_bootstrap --otu_table 74diff_asv_table_batch3_1.txt --number 1000 --prefix ./batch3_74asv/bootstrap_counts/batch3
+
+mkdir ./batch3_74asv/bootstrap_correlation
+parallel fastspar --otu_table {} --correlation ./batch3_74asv/bootstrap_correlation/cor_{/} --covariance ./batch3_74asv/bootstrap_correlation/cov_{/} -i 5 ::: ./batch3_74asv/bootstrap_counts/*
+
+fastspar --threshold 0.1 --otu_table 74diff_asv_table_batch3_1.txt --correlation ./batch3_74asv/median_correlation_74asv_batch3.tsv --covariance ./batch3_74asv/median_covariance_74asv_batch3.tsv
+# calculate p value
+fastspar_pvalues --otu_table 74diff_asv_table_batch3_1.txt --correlation ./batch3_74asv/median_correlation_74asv_batch3.tsv --prefix ./batch3_74asv/bootstrap_correlation/cor_batch3_ --permutations 1000 --outfile ./batch3_74asv/batch3_74asv_pvalues.tsv
+```
+# calculate correaltion
+```{bash}
+median_correlation_104asv_batch3.tsv 
+```

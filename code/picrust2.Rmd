@@ -1,0 +1,13 @@
+---
+title: "Picrust2.rmd"
+output: html_document
+date: "2024-09-23"
+---
+## picrust2 
+```{bash}
+conda activate picrust2
+
+picrust2_pipeline.py -s ~/batch3-qiime/extracted-feature-table_batch3-120/4c92a715-b56c-4235-a45f-0195df5baee9/data/dna-sequences.fasta -i ~/batch3-qiime/exported-feature-table_batch3-120/feature-table_batch3-120_1.txt \
+-o picrust2_batch3_120 -p 48
+
+```

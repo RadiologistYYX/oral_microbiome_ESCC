@@ -1,0 +1,174 @@
+---
+title: "001_qiime_create_asv_table"
+output: html_document
+date: "2024-02-27"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## cut primer
+### PRJNA660092
+341F: 5′-CCTACGGGNGGCWGCAG-3′; 806R: 5′-GGACTACVVGGGTATCTAATC-3′
+
+```{bash}
+cutadapt -g GGACTACVVGGGTATCTAATC -e 0.2 -o cut/SRR12544913_1_cut.fastq SRR12544913_1.fastq
+awk '{print "cutadapt -g GGACTACVVGGGTATCTAATC -e 0.2 -o cut/"$1"_1_cut.fastq "$1"_1.fastq"}' metadata_90.txt > cut_90_1.sh
+mv cut_90_1.sh ./90_sra/cut_90_1.sh
+cd 90_sra
+bash cut_90_1.sh
+awk '{print "cutadapt -g CCTACGGGNGGCWGCAG -e 0.2 -o cut/"$1"_2_cut.fastq "$1"_2.fastq"}' metadata_90.txt > cut_90_2.sh
+mv cut_90_2.sh ./90_sra/cut_90_2.sh
+cd 90_sra
+bash cut_90_2.sh
+```
+
+### PRJNA853196
+338F (5′-ACTCCTACGGGAGGCAGCAG-3′) and 806R (5′ -GGACTACHVGGGTWTCTAAT-3′)
+already cut
+### Chongqing Cohort
+341F (5′-CCTAYGGGRBGCASCAG-3′) and 806R (5′ -GGACTACNNGGGTATCTAAT-3′)
+```{bash}
+cutadapt -g CCTAYGGGRBGCASCAG -e 0.3 -o cut/SRR12544913_1_cut.fastq SRR12544913_1.fastq
+awk '{print "cutadapt -g CCTAYGGGRBGCASCAG -e 0.3 -o cut/"$2"_1_cut.fastq "$1".raw_1.fastq"}' CQEC_rename.txt > cut_CQ50_1.sh
+
+awk '{print "cutadapt -g GGACTACNNGGGTATCTAAT -e 0.2 -o cut/"$2"_2_cut.fastq "$1".raw_2.fastq"}' CQC_rename.txt > cut_CQ50_2.sh
+
+
+```
+qiime2
+```{bash}
+qiime tools import --type 'SampleData[PairedEndSequencesWithQuality]' --input-path sample_batch3_2024.02.27.txt --output-path paired-demux_batch3.qza --input-format PairedEndFastqManifestPhred33V2
+qiime demux summarize \
+   --i-data paired-demux-joined_batch3.qza \
+   --o-visualization paired-demux-joined_batch3.qzv
+   
+  qiime deblur denoise-16S \
+    --i-demultiplexed-seqs paired-demux-joined_batch3.qza \
+    --p-trim-length 120 \
+    --p-sample-stats \
+    --o-representative-sequences rep-seqs_batch3-120.qza \
+    --o-table table_batch3-120.qza \
+    --o-stats deblur-stats_batch3-120.qza
+```
+taxonomy
+```{bash}
+time qiime feature-classifier classify-sklearn \
+--i-classifier ~/reference/silva/silva-138.1-ssu-nr99-341f-806r-classifier.qza \
+--i-reads rep-seqs_batch3-120.qza  \
+--p-n-jobs 2 \
+--o-classification taxonomy/taxonomy_saliva_batch3-120.qza
+classifier download site: https://github.com/anw-sh/silva-138_classifiers?tab=readme-ov-file
+
+
+## cluster de novo
+qiime vsearch cluster-features-de-novo \
+  --i-table table_batch3.qza \
+  --i-sequences rep-seqs_batch3.qza \
+  --p-perc-identity 0.85 \
+  --o-clustered-table table-dn-85_batch3.qza \
+  --o-clustered-sequences rep-seqs-dn-85_batch3.qza
+  
+
+  
+qiime feature-classifier classify-sklearn \
+--i-classifier ~/reference/silva138_AB_V3-V4_classifier.qza \
+--i-reads rep-seqs-dn-99_batch3.qza  \
+--p-n-jobs 2 \
+--o-classification taxonomy/taxonomy-dn-99_silva_batch3.qza
+
+## filter
+
+qiime taxa filter-table \
+  --i-table table_batch3.qza \
+  --i-taxonomy taxonomy/taxonomy_silva_batch3.qza \
+  --p-exclude mitochondria,Chloroplast,"d__Eukaryota","Unassigned","d__Bacteria;__;__" \
+  --o-filtered-table taxonomy/table-no-mitochondria-no-chloroplast_batch3.qza
+
+qiime feature-table rarefy \
+--i-table taxonomy/table-no-mitochondria-no-chloroplast_batch3.qza \
+--p-sampling-depth 10000 \
+--o-rarefied-table taxonomy/table-no-mitochondria-no-chloroplast-deepth10000_batch3.qza
+
+```
+
+output table
+```{bash}
+qiime tools export \
+  --input-path table_batch3-120.qza\
+  --output-path exported-feature-table_batch3-120
+  
+  
+biom convert -i feature-table.biom \
+  -o feature-table_batch3-120.txt \
+  --to-tsv
+  
+qiime demux summarize \
+   --i-data table_batch3-120.qza \
+   --o-visualization table_batch3-120.qzv
+ 
+
+qiime taxa filter-table \
+  --i-table table_90_cut.qza \
+  --i-taxonomy result1/all_batch3_taxonomy_silva.qza \
+  --p-exclude mitochondria,Chloroplast,"d__Eukaryota","Unassigned","d__Bacteria;__;__" \
+  --o-filtered-table table-no-mitochondria-no-chloroplast_batch3_2.qza
+time qiime feature-table filter-features \
+  --i-table table_batch3.qza \
+  --p-min-frequency 10 \
+  --o-filtered-table feature-frequency-filtered-table10_batch3.qza
+  
+  
+
+ qiime tools export \
+    --input-path feature-frequency-filtered-table10_batch3.qza\
+    --output-path table/feature-frequency-filtered-table10_batch3/
+biom convert -i feature-table.biom \
+  -o feature-frequency-filtered-table10_batch3.txt \
+  --to-tsv
+```
+output taxomony
+```{bash}
+qiime tools export \
+--input-path taxonomy/taxonomy_saliva_batch3-120.qza \
+--output-path taxonomy_saliva_batch3-120
+
+```
+
+```{bash}
+qiime taxa collapse \
+--i-table taxonomy/table-no-mitochondria-no-chloroplast_batch3.qza \
+--i-taxonomy taxonomy/taxonomy_silva_batch3.qza \
+--p-level 7 \
+--o-collapsed-table table/table-species7-no-mitochondria-no-chloroplast_batch3_silva.qza
+
+qiime tools export \
+    --input-path table/table-species7-no-mitochondria-no-chloroplast_batch3_silva.qza\
+    --output-path table/table-species7-no-mitochondria-no-chloroplast_batch3_silva/    
+biom convert \
+    -i feature-table.biom \
+    -o table-species7-no-mitochondria-no-chloroplast_batch3_silva.tsv \
+    --to-tsv
+
+```
+
+export rep-seq
+```{bash}
+qiime tools extract \
+  --input-path rep-seqs_batch3-120.qza \
+  --output-path extracted-feature-table_batch3-120
+```
+
+
+```{bash}
+qiime feature-classifier blast \
+--i-query rep-seqs_batch3-120.qza \
+--o-search-results 
+
+```
+
+
+
+
+
